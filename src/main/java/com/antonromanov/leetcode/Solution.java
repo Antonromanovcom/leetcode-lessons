@@ -2,47 +2,33 @@ package com.antonromanov.leetcode;
 
 public class Solution {
     public int strStr(String haystack, String needle) {
-      
-        int haystackLength = haystack.length();
-        int res = -1;
-        int needleLength = needle.length(); // Получаем длину
-        int compareCounter = needleLength;
-        int needleCounter = 0;
+    
+        int hLen = haystack.length();
+        int nLen = needle.length();
         
-        for (int i = 0; i <= haystackLength-1; i++) {
-         
-         boolean flag = true;
-        
-         
-         System.out.println("Compare " + haystack.charAt(i) + " && " + needle.charAt(needleCounter) + "[]");
-         
-         if (haystack.charAt(i) == needle.charAt(needleCounter)) {
-            if (res == -1) {
-            res = i;
+        // Если needle пустая, возвращаем 0 (по условию задачи)
+        if (nLen == 0) {
+            return 0;
         }
-
-            System.out.println("" + haystack.charAt(i) + " && " + needle.charAt(needleCounter) + " are equals");
-            compareCounter = compareCounter - 1;
-            if (needleCounter == needleLength - 1) {
-                needleCounter = 0;
-            } else {
-                needleCounter = needleCounter +1;
+        
+        // Внешний указатель i - позиция в haystack
+        // Идём только до hLen - nLen, потому что дальше needle не поместится
+        for (int i = 0; i <= hLen - nLen; i++) {
+            // Внутренний указатель j - позиция в needle
+            int j = 0;
+            
+            // Сравниваем символы, пока они совпадают
+            while (j < nLen && haystack.charAt(i + j) == needle.charAt(j)) {
+                j++;
             }
             
-          } else {
-            flag = false;
-            res = -1;
-            needleCounter = 0;
-            if (compareCounter != 0) {
-                compareCounter = needleLength;
+            // Если прошли все символы needle - нашли совпадение
+            if (j == nLen) {
+                return i;
             }
-          }
-
-          if (compareCounter == 0) {
-            break;
-          }
         }
-
-        return res;
+        
+        return -1;
     }
 }
+    
